@@ -36,6 +36,8 @@ type UserRepo interface {
 	GetByUsername(ctx context.Context, username string) (userInfo *entity.User, exist bool, err error)
 	GetByUsernames(ctx context.Context, usernames []string) ([]*entity.User, error)
 	GetByEmail(ctx context.Context, email string) (userInfo *entity.User, exist bool, err error)
+	GetByMobile(ctx context.Context, mobile string) (userInfo *entity.User, exist bool, err error)
+	GetByEmailOrMobile(ctx context.Context, emailOrMobile string) (userInfo *entity.User, exist bool, err error)
 	GetUserCount(ctx context.Context) (count int64, err error)
 	SearchUserListByName(ctx context.Context, name string, limit int) (userList []*entity.User, err error)
 }

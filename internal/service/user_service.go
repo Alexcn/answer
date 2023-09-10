@@ -113,6 +113,12 @@ func (us *UserService) GetOtherUserInfoByUsername(ctx context.Context, username 
 	return resp, nil
 }
 
+// PrincipalLogin principal login
+func (us *UserService) PrincipalLogin(ctx context.Context, req *schema.UserPrincipalLoginReq) (resp *schema.UserLoginResp, err error) {
+	//info, exist, err := us.userRepo.GetByEmailOrMobile(ctx, req.Principal)
+	return nil, nil
+}
+
 // EmailLogin email login
 func (us *UserService) EmailLogin(ctx context.Context, req *schema.UserEmailLoginReq) (resp *schema.UserLoginResp, err error) {
 	userInfo, exist, err := us.userRepo.GetByEmail(ctx, req.Email)

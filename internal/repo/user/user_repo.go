@@ -216,6 +216,27 @@ func (ur *userRepo) GetByEmail(ctx context.Context, email string) (userInfo *ent
 	return
 }
 
+func (ur *userRepo) GetByMobile(ctx context.Context, mobile string) (userInfo *entity.User, exist bool, err error) {
+	userInfo = &entity.User{}
+	exist, err = ur.data.DB.Context(ctx).Where("mobile = ?", mobile).
+		Where("status != ?", entity.UserStatusDeleted).Get(userInfo)
+	if err != nil {
+		err = errors.InternalServer(reason.DatabaseError).WithError(err).WithStack()
+	}
+	return
+}
+
+func (ur *userRepo) GetByEmailOrMobile(ctx context.Context, emailOrMobile string) (userInfo *entity.User, exist bool, err error) {
+	userInfo = &entity.User{}
+	exist, err = ur.data.DB.Context(ctx).
+		Where("(e_mail = ? OR mobile = ?) AND status != ?", emailOrMobile, emailOrMobile, entity.UserStatusDeleted).
+		Get(userInfo)
+	if err != nil {
+		err = errors.InternalServer(reason.DatabaseError).WithError(err).WithStack()
+	}
+	return
+}
+
 func (ur *userRepo) GetUserCount(ctx context.Context) (count int64, err error) {
 	list := make([]*entity.User, 0)
 	count, err = ur.data.DB.Context(ctx).Where("mail_status =?", entity.EmailStatusAvailable).And("status =?", entity.UserStatusAvailable).FindAndCount(&list)
