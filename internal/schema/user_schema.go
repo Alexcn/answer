@@ -168,6 +168,14 @@ type UserEmailLoginReq struct {
 	CaptchaCode string `json:"captcha_code"`
 }
 
+// UserPrincipalLoginReq user principal login request
+type UserPrincipalLoginReq struct {
+	Principal   string `validate:"required,principal,gt=0,lte=500" json:"principal"`
+	Pass        string `validate:"required,gte=8,lte=32" json:"pass"`
+	CaptchaID   string `json:"captcha_id"`
+	CaptchaCode string `json:"captcha_code"`
+}
+
 // UserRegisterReq user register request
 type UserRegisterReq struct {
 	Name        string `validate:"required,gt=3,lte=30" json:"name"`
