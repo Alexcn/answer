@@ -136,6 +136,7 @@ func (uc *UserController) UserEmailLogin(ctx *gin.Context) {
 	if !isAdmin {
 		uc.actionService.ActionRecordDel(ctx, entity.CaptchaActionPassword, ctx.ClientIP())
 	}
+	ctx.SetCookie("access_token", resp.AccessToken, 3600*24*7, "/", ".unlimiai.com", true, true)
 	handler.HandleResponse(ctx, nil, resp)
 }
 
